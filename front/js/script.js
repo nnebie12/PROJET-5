@@ -13,7 +13,7 @@ async function getProducts(){
     let renderHtml = " ";
     products.forEach(element => {
         let renderElement = ` 
-        <a href="./product.html?id=${element._id}">
+        <a href="./product.html?productId=${element._id}">
             <article>
               <img src="${element.imageUrl}" alt="${element.altTxt}">
               <h3 class="productName">${element.name}</h3>
