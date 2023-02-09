@@ -45,4 +45,70 @@ async function getProductById(){
     });
 })();
 
+//Modèle d'objet d'un produit sélectionné
+class product {
+    constructor(productId, color, quantity) {
+        this.productId = productId,
+            this.color = color,
+            this.quantity = quantity
+    }
+};
+
+//Cette fonction permet d'ajouter un produit dans le pan)();ier
+(async function addProductToCart(){
+   //Récupération du produit sélectionné
+ let productSelected = await getProductById();
+ //Récupération des éléments du formulaire de saisi de l'utilisateur
+ let colorSelected = document.querySelector("#colors");
+ let quantitySelected = document.querySelector("#quantity");
+ //Sélection du boutton ajouté au panier
+ let buttonAddProductToCart = document.querySelector ("#addToCart");
+ //Ajout d'un écouteur au boutton ajouté au panier
+ buttonAddProductToCart.addEventListener("click", (ev) =>{
+     //Bloquer les évènements par défaut
+     ev.preventDefault();
+     //Création de l'objet contenat les informations a ajoutés dans le panier
+     let dataSelected = new product(
+         productSelected._id,
+         colorSelected.value,
+         Number(quantitySelected.value)
+     );
+     
+     //Vérification de la quantité de produits saisi par l'utilisateur
+     if(dataSelected.quantity <= 0 || dataSelected.quantity >100){
+        alert("Veuillez indiquer une quantité entre 1 et 100");
+
+    }else{
+        //Les données saisies par l'utilisateur sont corrects
+        
+        //Initialisation du local storage
+    let localStorageProduct = JSON.parse(localStorage.getItem("cart"))
+    
+
+    //Si le local storage ou le panier est vide
+    if(!localStorageProduct){
+        localStorageProduct = [];
+    
+        localStorageProduct.push(dataSelected);
+        localStorage.setItem("cart", JSON.stringify(localStorageProduct));
+        console.log(localStorageProduct);
+    }else{
+        //Le local storage ou panier comporte au moins un produit
+        localStorageProduct.Number = parseInt(localStorageProduct.Number) + parseInt(Number);
+        localStorage.setItem("cart", JSON.stringify(localStorageProduct));
+    }
+    
+
+        
+
+    
+        
+    }
+
+   
+    
+ });
+
+
+})();
 
