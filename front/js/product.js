@@ -54,7 +54,7 @@ class product {
     }
 };
 
-//Cette fonction permet d'ajouter un produit dans le pan)();ier
+//Cette fonction permet d'ajouter un produit dans le panier
 (async function addProductToCart(){
    //Récupération du produit sélectionné
  let productSelected = await getProductById();
@@ -92,10 +92,24 @@ class product {
         localStorageProduct.push(dataSelected);
         localStorage.setItem("cart", JSON.stringify(localStorageProduct));
         console.log(localStorageProduct);
+        alert("Le produit sélectionné a été ajouté avec succès dans le panier!");
     }else{
         //Le local storage ou panier comporte au moins un produit
-        localStorageProduct.Number = parseInt(localStorageProduct.Number) + parseInt(Number);
-        localStorage.setItem("cart", JSON.stringify(localStorageProduct));
+        // . Vérifier si le local storage contient un produit avec meme coleur et meme id
+        const productFinded = localStorageProduct.find ((el)=>el.productId === dataSelected.productId && el.color === dataSelected.color);
+        //Si productFinded est vrai cela signifie que le produit sélectioné est déjà dans le local storage
+        if(productFinded){
+            let newQuantity = productFinded.quantity + dataSelected.quantity;
+            productFinded.quantity = newQuantity;
+            localStorage.setItem("cart", JSON.stringify(localStorageProduct));
+        }else{
+            //le produit sélectionné n'est pas dans le panier ou dans le local storage
+            localStorageProduct.push(dataSelected);
+            localStorage.setItem("cart", JSON.stringify(localStorageProduct));
+
+
+        }
+        alert("Le produit sélectionné a été ajouté avec succès dans le panier!");
     }
     
 

@@ -8,8 +8,8 @@ let totalProductPriceCart = 0;
 
 
 
-async function getCartById(){
-    let cartId = getICart();
+(async function getCartById(){
+    let cartId = getIdCart();
     try{
         let response = await fetch (`http://localhost:3000/api/products/${productId}`); 
         return await response.json();   
@@ -17,71 +17,69 @@ async function getCartById(){
         console.log("erreur dans le traitement de la requête",error)
     }
 
-}
+})();
 
-async function getCart(){
-    let items = [];
-    if (localStorage.getItem("panier") == null){
-        items = JSON.parse(localStorage.getItem("cart"));
+async function addToCart(){
+    let getCart = [];
+    let ArrayCart = JSON.parse(localStorage.getItem("cart"));
+    if(ArrayCart !== nul){
+        for(let i = 0; i < ArrayCart.length; i++){
+            let cartToDisplay = await getCartById();
+            let productsData = new article(
+                productData._id,
+                colorData.ArrayCartcolor,
+                NameData.
 
-    }else{
-    return items;
+            )
+
+        }
     }
-} 
-//Enregistrement du panier dans le localStorage
-function saveCart(cart){
-    localStorage.setItem("cart", JSON.stringify(cart))
-}
-
-// Calcul de la quantité total d'article dans le panier
-async function totalProductsQuantity(){
-    totalQunatity += parseInt(quantityProductPanier);
-    console.log("Total quantité panier", totalQuantity);
-    document.getElementById("totalQuantity").innerText = totalQuantity;
-}
-
-//Calcul du prix total des produits du panier
-async function totalProductsPrice(){
-    totalProductPriceCart = quantityProductCart * priceProduitCart;
-    totalPrice += totalProductPriceCart;
-    console.log("Total prix panier");
-    document.getElementById("totalPrice").innerText = totalPrice;
 
 }
 
-//Recalcule de la quantité des produits dans le panier
-async function addCart(){
-    let cart = getCart();
-    //vérification de l'id, s'il correspond
-    let foundProduct = products.find((element) => element._id === idProductsLocalStorage);
-    if(foundProduct){
-        let newTotalProductPriceCart = foundProducts.price * quantyProductsLocalStorage;
-        newTotalPriceCart += newTotalProductPriceCart;
-        console.log("Nouveau prix total du panier");
+
+(async function displayCart(){
+    let reponseFetch = await addToCart();
+   let cartValue= JSON.parse(localStorage.getItem("cart"));
+    if (cartValue !== null && cartValue.length !== 0){
+            let cartToDisplay = await getCartById();
+            let renderHtml = " ";
+           products.forEach(products => {
+             let  = products`
+             <article class="cart__item" data-id="${products_id}" data-color="${products-color}">
+                <div class="cart__item__img">
+                  <img src="${products.imageUrl}" alt="${products.altTxt}">
+                </div>
+                <div class="cart__item__content">
+                  <div class="cart__item__content__description">
+                    <h2>${products.name}</h2>
+                    <p>${products.descrition}</p>
+                    <p>${products.price}</p>
+                  </div>
+                  <div class="cart__item__content__settings">
+                    <div class="cart__item__content__settings__quantity">
+                      <p>${products.quantity}</p>
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartToDisplay.quantity}">
+                    </div>
+                    <div class="cart__item__content__settings__delete">
+                      <p class="deleteItem">${products.descrition}</p>
+                    </div>
+                  </div>
+                </div>
+               </article>
+               `;
+           });
+        
     }else{
-        products.quantity = 1;
-        cart.push();
+        alert("Panier vide, veuillez vhoisir un article" )
     }
+
     
+})();
 
-}
 
 
-let alreadyInCarte = product.findIndex(
-    //Pour éviter les doubles id et options
-    (item => item.id === productSelected._id && item.lense === productSelected.lense)
-);
 
-//Si l'article n'est pas encore présent l'indexé à -1
-if(alreadyInCarte == -1){
-product.push(productToCart);
-}else{
-//on incrémente sa quantité
-product[alreadyInCarte].number += quantity;
-}
-
-let localStorageCart = JSON.stringify(productToCart);
-localStorage.setItem('productToCart', cart);
 
 
 
